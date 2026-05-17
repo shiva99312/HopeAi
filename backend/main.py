@@ -3,7 +3,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import StreamingResponse
 from pydantic import BaseModel
 
-from ai_service import ask_ai_stream
+from backend.ai_service import ask_ai_stream
 
 app = FastAPI()
 

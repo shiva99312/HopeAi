@@ -21,13 +21,20 @@ class ChatRequest(BaseModel):
 # Home route
 @app.get("/")
 async def home():
-    return {"message": "Hope AI Backend Running 🚀"}
+    return {
+        "message": "Hope AI Backend Running 🚀"
+    }
 
-# Ask AI route
+# AI chat route
 @app.post("/ask")
 async def ask_ai(request: ChatRequest):
     try:
+        # Get AI response
         response = ask_ai_stream(request.message)
+
+        # Convert token list into normal text
+        if isinstance(response, list):
+            response = "".join(response)
 
         return {
             "response": response

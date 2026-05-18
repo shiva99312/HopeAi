@@ -18,9 +18,11 @@ function App() {
 
     if (!input.trim()) return;
 
+    const userInput = input;
+
     const userMessage = {
       sender: "You",
-      text: input,
+      text: userInput,
     };
 
     const updatedChat = [...chat, userMessage];
@@ -29,45 +31,39 @@ function App() {
 
     setInput("");
 
-    const response = await fetch("https://hopeai-y1zh.onrender.com/ask", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        message: input,
-      }),
-    });
+    try {
 
-    const reader = response.body.getReader();
+      const response = await fetch("https://hopeai-y1zh.onrender.com/ask", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          message: userInput,
+        }),
+      });
 
-    const decoder = new TextDecoder("utf-8");
+      const data = await response.json();
 
-    let aiText = "";
-
-    setChat([
-      ...updatedChat,
-      {
+      const aiMessage = {
         sender: "HopeAI",
-        text: "",
-      },
-    ]);
+        text: data.response,
+      };
 
-    while (true) {
+      setChat([
+        ...updatedChat,
+        aiMessage,
+      ]);
 
-      const { done, value } = await reader.read();
+    } catch (error) {
 
-      if (done) break;
-
-      const chunk = decoder.decode(value);
-
-      aiText += chunk;
+      console.error(error);
 
       setChat([
         ...updatedChat,
         {
           sender: "HopeAI",
-          text: aiText,
+          text: "Error connecting to backend",
         },
       ]);
     }

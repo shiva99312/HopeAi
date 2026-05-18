@@ -1,12 +1,11 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from fastapi.responses import StreamingResponse
 from pydantic import BaseModel
-
 from backend.ai_service import ask_ai_stream
 
 app = FastAPI()
 
+# Enable CORS
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],
@@ -15,17 +14,26 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+# Request model
 class ChatRequest(BaseModel):
     message: str
 
+# Home route
+@app.get("/")
+async def home():
+    return {"message": "Hope AI Backend Running 🚀"}
+
+# Ask AI route
 @app.post("/ask")
-async def ask(request: ChatRequest):
+async def ask_ai(request: ChatRequest):
+    try:
+        response = ask_ai_stream(request.message)
 
-    def generate():
-        for chunk in ask_ai_stream(request.message):
-            yield chunk
+        return {
+            "response": response
+        }
 
-    return StreamingResponse(
-        generate(),
-        media_type="text/plain"
-    )
+    except Exception as e:
+        return {
+            "error": str(e)
+        }

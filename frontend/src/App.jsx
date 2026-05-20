@@ -82,6 +82,7 @@ function App() {
   };
 
   return (
+    <>
     <div
       style={{
         width: "100%",
@@ -91,6 +92,7 @@ function App() {
         display: "flex",
         justifyContent: "center",
         alignItems: "center",
+        gap: "20px",
         padding: "20px",
         boxSizing: "border-box",
         overflow: "hidden",
@@ -127,21 +129,97 @@ function App() {
         }}
       />
 
+      {/* Sidebar */}
+      <div
+        style={{
+          width: "260px",
+          height: "92vh",
+          background: "rgba(17,24,39,0.65)",
+          backdropFilter: "blur(18px)",
+          borderRadius: "28px",
+          border: "1px solid rgba(255,255,255,0.06)",
+          padding: "24px",
+          display: "flex",
+          flexDirection: "column",
+          boxShadow: "0 0 30px rgba(0,0,0,0.25)",
+          zIndex: 2,
+        }}
+      >
+        <h2
+          style={{
+            color: "white",
+            marginBottom: "24px",
+            fontSize: "24px",
+          }}
+        >
+          HopeAI
+        </h2>
+
+        <button
+          onClick={() => {
+            setChat([]);
+            setUploadedFile(null);
+          }}
+          style={{
+            padding: "14px",
+            borderRadius: "16px",
+            border: "none",
+            background: "linear-gradient(135deg,#2563eb,#7c3aed)",
+            color: "white",
+            cursor: "pointer",
+            marginBottom: "22px",
+            fontWeight: "600",
+          }}
+        >
+          + New Chat
+        </button>
+
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            gap: "12px",
+          }}
+        >
+          <div
+            style={{
+              padding: "14px",
+              borderRadius: "16px",
+              background: "rgba(255,255,255,0.05)",
+              color: "#cbd5e1",
+              fontSize: "14px",
+            }}
+          >
+            Welcome Chat
+          </div>
+
+          <div
+            style={{
+              padding: "14px",
+              borderRadius: "16px",
+              background: "rgba(255,255,255,0.05)",
+              color: "#cbd5e1",
+              fontSize: "14px",
+            }}
+          >
+            AI Conversations
+          </div>
+        </div>
+      </div>
+
       {/* Main Container */}
       <div
         style={{
-          width: "100%",
-          maxWidth: "1000px",
+          width: "min(900px, 100%)",
           height: "92vh",
-          background: "rgba(17, 24, 39, 0.75)",
-          backdropFilter: "blur(20px)",
-          border: "1px solid rgba(255,255,255,0.08)",
+          background: "rgba(17,24,39,0.62)",
+          backdropFilter: "blur(18px)",
           borderRadius: "28px",
+          border: "1px solid rgba(255,255,255,0.06)",
           display: "flex",
           flexDirection: "column",
           overflow: "hidden",
-          boxShadow: "0 0 40px rgba(0,0,0,0.45)",
-          position: "relative",
+          boxShadow: "0 0 30px rgba(0,0,0,0.25)",
           zIndex: 2,
         }}
       >
@@ -377,6 +455,33 @@ function App() {
         </div>
       </div>
     </div>
+    <style>
+      {`
+        @keyframes fadeIn {
+          from {
+            opacity: 0;
+            transform: translateY(10px);
+          }
+          to {
+            opacity: 1;
+            transform: translateY(0px);
+          }
+        }
+
+        @keyframes pulse {
+          0% {
+            transform: scale(1);
+          }
+          50% {
+            transform: scale(1.1);
+          }
+          100% {
+            transform: scale(1);
+          }
+        }
+      `}
+    </style>
+    </>
   );
 }
 
